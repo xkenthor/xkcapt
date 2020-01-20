@@ -1,10 +1,10 @@
 """
-This module read .tsv file with following cell format:
+This module reads .tsv file with following cell format:
 
                         [ annotation | URL ]
 
 It goes though all the cells and tries to download every picture. If the
-program fails to access, then the cell number is added to the list of unloaded.
+program fails to access then the cell number is added to the list of unloaded.
 
 Result JSON-file view:
 
@@ -107,7 +107,7 @@ def _a_parse():
         if ans in {'True', 'true', '1', 't', 'y', 'yes', ''}:
             print('File will be overwritten.')
         else:
-            print('Exiting.')
+            print('Exiting..')
             sys.exit(1)
 
     if continue_flag in {'True', 'true', '1', 't', 'y', 'yes', ''}:
@@ -196,7 +196,7 @@ def _print_current_info(tsv_index, tsv_len, time_spent, time_left):
 
 def start_downloading(args):
     """
-    This function starts download.
+    This function starts downloading.
 
     Keyword arguments:
     args -- {

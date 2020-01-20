@@ -5,7 +5,7 @@ format.
 Since we do not know some information about the downloaded images (for example,
 year of creation, license), these cells are filled with the text "unknown".
 
-For the brevity of the code, the output dson will have only one license:
+For the brevity of the code the output dson will have only one license:
     {
         'url': 'http://flickr.com/commons/usage/',
         'id': 7,
