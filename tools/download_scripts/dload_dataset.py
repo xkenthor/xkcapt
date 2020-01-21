@@ -4,7 +4,8 @@ This module reads .tsv file with following cell format:
                         [ annotation | URL ]
 
 It goes though all the cells and tries to download every picture. If the
-program fails to access then the cell number is added to the list of unloaded.
+    program fails to access then the cell number is added to the list of
+    unloaded.
 
 Result JSON-file view:
 
@@ -34,16 +35,17 @@ import argparse
 
 def _a_parse():
     """
-    This function is a simple parser. Checks if paths in arguments are right.
+    This function is a simple argument parser. Checks if paths in arguments are
+        right & checks if directories exist.
 
     Return:
-    dict -- {
-            'source_tsv': < string >,
-            'output_json': < string >,
-            'dset_pic_path': < string >,
-            'continue_download': < bool >,
-            'timeout_connection': < float >
-            }
+    < dict > -- {
+                'source_tsv': < string >,
+                'output_json': < string >,
+                'dset_pic_path': < string >,
+                'continue_download': < bool >,
+                'timeout_connection': < float >
+                }
 
     """
     a_parser = argparse.ArgumentParser()
