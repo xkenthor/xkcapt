@@ -5,7 +5,6 @@ It is worth noting that original MSCOCO dataset has the following feature:
     one picture may have two or more annotations so this module implements
     logic that preserves the correct annotation links to images
 
-
 It is understood that MSCOCO json files will have following format:
 {
     "info": {
@@ -45,7 +44,6 @@ It is understood that MSCOCO json files will have following format:
 }
 
 """
-
 import os
 import sys
 import json
@@ -57,7 +55,7 @@ def _a_parse():
         right & checks if directories exist.
 
     Return:
-    < dict > --
+    < dict > -- {
                 'first_json': < string >,
                 'second_json': < string >,
                 'result_json': < string >
