@@ -3,7 +3,7 @@ This module merges two MSCOCO json files into one. It takes two paths to json
     files as arguments.
 It is worth noting that original MSCOCO dataset has the following feature:
     one picture may have two or more annotations so this module implements
-    logic that preserves the correct annotation links to images
+    logic that preserves the correct annotation links to images.
 
 It is understood that MSCOCO json files will have following format:
 {
@@ -28,7 +28,7 @@ It is understood that MSCOCO json files will have following format:
         ],
     "licenses": [
             {
-                "url": "http:// ... .com"
+                "url": "http://any_url.com",
                 "id": 1,
                 "name": 'Attribution-NonCommercial-ShareAlike Licence'
             }, { ... }, ...

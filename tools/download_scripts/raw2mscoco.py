@@ -31,7 +31,7 @@ Template of source file (generated .json):
 
 /-----------------------------------------------------------------------------/
 
-Template of destination file (MSCOCO .json standart):
+Template of destination file (MSCOCO .json standard):
 
 {
     "info": {

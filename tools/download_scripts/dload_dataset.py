@@ -1,5 +1,6 @@
 """
-This module reads .tsv file with following cell format:
+This module reads .tsv file with cells separated by tabs (/t) with following
+    format:
 
                         [ annotation | URL ]
 
