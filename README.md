@@ -134,40 +134,40 @@ Since we do not know some information about the downloaded images (for example, 
 **Template of destination file (MSCOCO .json standard):**
 ````JSON
 {
-    "info": {
-        "description": "This is stable 1.0 version..",
-        "url": "http://mscoco.org",
-        "version": "1.0",
-        "year": 2017,
-        "contributor": "Microsoft COCO.group",
-        "date_created": "2017-01-27 09:11:52.357474",
-    "images": [
-            {
-                "licence": < int >,
-                "file_name": < filename.jpg >,
-                "coco_url": "http://mscoco.org/images/391895",
-                "height": 360,
-                "width": 640,
-                "date_captured": "2017-11-14 11:18:45",
-                "flick_url": < url >,
-                "id": 391895
-            }, { ... }, ...
-        ],
-    "licenses": [
-            {
-                "url": "http:// ... .com"
-                "id": 1,
-                "name": 'Attribution-NonCommercial-ShareAlike Licence'
-            }, { ... }, ...
-        ],
-    "annotations": [
-            {
-                "image_id": 203564,
-                "id": 37,
-                "caption": "A bicycle replica with a clock as the front wheel."
-            }, { ... }, ...
-        ]
-    }
+      "info": {
+          "description": "This is stable 1.0 version..",
+          "url": "http://any_url.com",
+          "version": "1.0",
+          "year": 2017,
+          "contributor": "Microsoft COCO.group",
+          "date_created": "2017-01-27 09:11:52.357474",
+      "images": [
+              {
+                  "licence": "int",
+                  "file_name": "filename.jpg",
+                  "coco_url": "http://any_url.com",
+                  "height": 360,
+                  "width": 640,
+                  "date_captured": "2017-11-14 11:18:45",
+                  "flick_url": "http://any_url.com",
+                  "id": 391895
+              }
+          ],
+      "licenses": [
+              {
+                  "url": "http://any_url.com",
+                  "id": 1,
+                  "name": "Attribution-NonCommercial-ShareAlike Licence"
+              }
+          ],
+      "annotations": [
+              {
+                  "image_id": 203564,
+                  "id": 37,
+                  "caption": "A bicycle replica with a clock as the front wheel."
+              }
+          ]
+      }
 }
 ````
 
