@@ -16,9 +16,97 @@ Google .tsv files must have following format:
 
 """
 import os
+import sys
 import json
+import argparse
 
 import nltk
+
+def _a_parser():
+    """
+    This function is a simple argument parser. Checks if paths in arguments are
+        right & checks if directories exist.
+
+    Return:
+    < dict > -- {
+                'json_file': path to json_file OR None,
+                'tsv_file': path to tsv_file OR None,
+                'output_tsv': path to output_file
+                }
+
+    """
+    a_parser = argparse.ArgumentParser()
+    a_parser.add_argument(
+                '-j',
+                '--json_file',
+                metavar='/path/to/json',
+                required=False,
+                help='path to source json-file if specified instead of tsv')
+
+    a_parser.add_argument(
+                '-t',
+                '--tsv_file',
+                metavar='/path/to/tsv',
+                required=False,
+                help='path to source tsv-file if specified instead of json')
+
+    a_parser.add_argument(
+                '-o',
+                '--output_tsv',
+                metavar='/path/to/output_tsv',
+                required=False,
+                help='path to output tsv if if not specified will be in ' + \
+                    'script directory')
+
+    args = vars(a_parser.parse_args())
+
+    json_file_path = args.get('json_file')
+    tsv_file_path = args.get('tsv_file')
+    output_tsv_path = args.get('output_tsv')
+
+    # source file checking
+    if json_file_path is None and tsv_file_path is None:
+        print('[ERROR]: No source file specified.')
+        sys.exit()
+    else:
+        if json_file_path is not None:
+            source_file_path = os.path.abspath(json_file_path)
+            args.update({'json_file': source_file_path, 'tsv_file': None})
+        else:
+            source_file_path = os.path.abspath(tsv_file_path)
+            args.update({'json_file': None, 'tsv_file': source_file_path})
+
+    if os.path.exists(source_file_path) != True:
+        print('[ERROR]: Source file path has not found.')
+        sys.exit()
+
+    if os.path.isfile(source_file_path) != True:
+        print('[ERROR]: Source file is a directory.')
+        sys.exit()
+
+    # output file checking
+    if output_tsv_path is None:
+        print('[ERROR]: No output file specified.')
+        sys.exit()
+    else:
+        if output_tsv_path[-4:] != '.tsv':
+            print("[ERROR]: Output file hasn't .tsv extension.")
+            sys.exit()
+        else:
+            output_tsv_path = os.path.abspath(output_tsv_path)
+
+    if os.path.exists(output_tsv_path):
+        ans = input(
+            '\n[ATTENTION]: output file already exist, overwrite it? [Y/n]: ')
+        if ans in {'True', 'true', '1', 't', 'y', 'yes', ''}:
+            print('File will be overwritten.')
+        else:
+            print('Exiting..')
+            sys.exit(1)
+
+    args.update({'output_tsv': output_tsv_path})
+
+    return args
 
 def get_mscoco_wfrequency():
     """
@@ -62,7 +150,7 @@ def get_hgst_and_lwst_frequency(annotation_tuple):
 
     h_freq = 0
     h_word = ''
-    l_freq = 9999999999999
+    l_freq = 99999999999
     l_word = ''
 
     count = 0
@@ -88,26 +176,29 @@ def get_hgst_and_lwst_frequency(annotation_tuple):
 
 if __name__ == '__main__':
 
-    # json_path = os.path.abspath('../json_sources/combined_set.json')
+    args = _a_parser()
+    print(args)
+
+    # # json_path = os.path.abspath('../json_sources/combined_set.json')
+    # #
+    # # with open(json_path, 'r') as json_read:
+    # #     json_data = json.load(json_read)
+    # #
+    # # annotation_list = json_data.get('annotations')
+    # # main_freq_list = get_words_frequency(annotation_list)
     #
-    # with open(json_path, 'r') as json_read:
-    #     json_data = json.load(json_read)
+    # tsv_path = os.path.abspath(
+    #                 '../../datasets/google_dataset/Train_GCC-training.tsv')
     #
-    # annotation_list = json_data.get('annotations')
-    # main_freq_list = get_words_frequency(annotation_list)
-
-    tsv_path = os.path.abspath(
-                    '../../datasets/google_dataset/Train_GCC-training.tsv')
-
-    with open(tsv_path, 'r') as tsv_file:
-        annotation_list = [line.strip().split('\t') for line in tsv_file]
-
-    main_freq_list = get_tsv_words_frequency(annotation_list)
-
-    freq_dict = dict(main_freq_list)
-    only_freq_list = list(freq_dict.values())
-
-    with open('../json_sources/GOOGLE_ONLY_statistic.json', 'w') as write_stat:
-        json.dump(freq_dict, write_stat)
-
-    print(get_hgst_and_lwst_frequency(freq_dict))
+    # with open(tsv_path, 'r') as tsv_file:
+    #     annotation_list = [line.strip().split('\t') for line in tsv_file]
+    #
+    # main_freq_list = get_tsv_words_frequency(annotation_list)
+    #
+    # freq_dict = dict(main_freq_list)
+    # only_freq_list = list(freq_dict.values())
+    #
+    # with open('../json_sources/GOOGLE_ONLY_statistic.json', 'w') as write_stat:
+    #     json.dump(freq_dict, write_stat)
+    #
+    # print(get_hgst_and_lwst_frequency(freq_dict))
