@@ -2,14 +2,16 @@
 This project provides tools for downloading, preparing, analyzing datasets for training a neural network to annotate images in different languages.
 
 ## Anchors
-- [Requirements](Requirements)
-- - [Download scripts](Download-scripts)
-- - [Analysis scripts](Analysis-scripts)
-- - - [dload_dataset](dload_dataset)
-- - - [merge_mscoco_jsons](merge_mscoco_jsons)
-- - - [raw2mscoco](raw2mscoco)
-- [Installation](Installation)
-- [Description](Description)
+- [Description](#Description)
+- [Requirements](#Requirements)
+- - [Download scripts](#Download-scripts)
+- - [Analysis scripts](#Analysis-scripts)
+- - - [dload_dataset](#dload_dataset)
+- - - [merge_mscoco_jsons](#merge_mscoco_jsons)
+- - - [raw2mscoco](#raw2mscoco)
+- - - [count_word_frequency](#count_word_frequency)
+- [Installation](#Installation)
+- - [nltk installation](#nltk-installation)
 
 ## Description
 
@@ -172,7 +174,73 @@ Since we do not know some information about the downloaded images (for example, 
 ````
 
 ### Analysis scripts
+-----
+#### count_word_frequency
+
+This module counts word frequency in .json or .tsv files. After finishing it saves the results to a file.
+
+MSCOCO source .json files must have following fields:
+````JSON
+{
+    "annotations":[
+        {
+            "caption": < string >
+        }
+    ]
+}
+````
+
+Google source .tsv files must have [following format](#dload_dataset) described above.
+
+**Example of results in .json format:**
+````JSON
+{
+   "a": 41137,
+   ".": 18778,
+   "on": 9076,
+   "of": 8619,
+   "the": 8416,
+   "in": 7661,
+   "with": 6415,
+   "and": 5847,
+   "is": 4209,
+}
+````
+**Example of results in .tsv format:**
+
+- a\t41137\n
+.\t18778\n
+on\t9076\n
+of\t8619\n
+the\t8416\n
+in\t7661\n
+with\t6415\n
+and\t5847\n
+is\t4209\n
+
+word | frequency
+---|---
+a |  41137
+. |  18778
+on |  9076
+of |  8619
+the |  8416
+in |  7661
+with |  6415
+and |  5847
+is |  4209
+
+
 
 ## Requirements
+- python 3.8
+- - nltk (3.4.5)
 
 ## Installation
+### nltk installation
+Write and execute following code:
+````PYTHON
+  import nltk
+  nltk.download()
+````
+After launching GUI choose install all and exit.
