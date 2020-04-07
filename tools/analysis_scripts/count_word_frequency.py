@@ -2,7 +2,7 @@
 This module counts word frequency in .json or .tsv files. After finishing it
     saves the results to a file.
 
-MSCOCO .json files must have following fields:
+MSCOCO source .json files must have following fields:
 {
     "annotations":[
         {
@@ -11,8 +11,11 @@ MSCOCO .json files must have following fields:
     ]
 }
 
-Google .tsv files must have following format:
+Google source .tsv files must have following format:
                                                 [ annotation | URL ]
+
+The script will save results to .json or .tsv file specified in --output_file
+    path by user.
 
 """
 import os
