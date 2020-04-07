@@ -12,7 +12,7 @@ MSCOCO .json files must have following fields:
 }
 
 Google .tsv files must have following format:
-    [ annotation | URL ]
+                                                [ annotation | URL ]
 
 """
 import os
@@ -21,6 +21,7 @@ import json
 import argparse
 
 import nltk
+
 
 def _a_parser():
     """
@@ -31,7 +32,7 @@ def _a_parser():
     < dict > -- {
                 'json_file': path to json_file OR None,
                 'tsv_file': path to tsv_file OR None,
-                'output_tsv': path to output_file
+                'output_file': path to output_file
                 }
 
     """
@@ -52,8 +53,8 @@ def _a_parser():
 
     a_parser.add_argument(
                 '-o',
-                '--output_tsv',
-                metavar='/path/to/output_tsv',
+                '--output_file',
+                metavar='/path/to/output_file',
                 required=False,
                 help='path to output tsv if if not specified will be in ' + \
                     'script directory')
@@ -62,7 +63,7 @@ def _a_parser():
 
     json_file_path = args.get('json_file')
     tsv_file_path = args.get('tsv_file')
-    output_tsv_path = args.get('output_tsv')
+    output_file_path = args.get('output_file')
 
     # source file checking
     if json_file_path is None and tsv_file_path is None:
@@ -85,17 +86,18 @@ def _a_parser():
         sys.exit()
 
     # output file checking
-    if output_tsv_path is None:
-        print('[ERROR]: No output file specified.')
-        sys.exit()
+    if output_file_path is None:
+        print('\n[ATTENTION]: No output file specified. It will be saved as ' + \
+                                    'wf_output_file.json in program directory.')
+        output_file_path = os.path.abspath('wf_output_file.json')
     else:
-        if output_tsv_path[-4:] != '.tsv':
-            print("[ERROR]: Output file hasn't .tsv extension.")
+        if output_file_path[-4:] != '.tsv' and output_file_path[-5:] != '.json':
+            print("[ERROR]: Output file hasn't .tsv or .json extension.")
             sys.exit()
         else:
-            output_tsv_path = os.path.abspath(output_tsv_path)
+            output_file_path = os.path.abspath(output_file_path)
 
-    if os.path.exists(output_tsv_path):
+    if os.path.exists(output_file_path):
         ans = input(
             '\n[ATTENTION]: output file already exist, overwrite it? [Y/n]: ')
         if ans in {'True', 'true', '1', 't', 'y', 'yes', ''}:
@@ -104,24 +106,25 @@ def _a_parser():
             print('Exiting..')
             sys.exit(1)
 
-    args.update({'output_tsv': output_tsv_path})
+    args.update({'output_file': output_file_path})
 
     return args
 
-def get_mscoco_wfrequency():
+def get_words_frequency(annotation_list):
     """
-    This function processes MSCOCO .json file and starts counting frequency of
-        unique words in "annotations" -> "caption" field.
+    This function goes through every annotation, counts words in a separate
+        dictionary. Returns reverse sorted dictionary of frequency.
 
     Keyword arguments:
-    filename -- < dict > MSCOCO dict file.
+    annotation_list -- < list > of < string > list with annotations that will be
+        checked.
 
     Return:
     < dict > -- {
-                    "word_1": < frequency_int_1 >,
-                    "word_2": < frequency_int_2 >,
+                    "word_1": < int >,
+                    "word_2": < int >,
                     ...
-                    "word_n": < frequency_int_n >
+                    "word_n": < int >
                 }
 
     """
@@ -129,11 +132,10 @@ def get_mscoco_wfrequency():
 
     count = 0
     c_len = len(annotation_list)
-    for annotation in annotation_list:
+    for caption in annotation_list:
         try:
-            caption = annotation.get('caption')
             caption = caption.lower()
-            caption = nltk.work_tokenize(caption)
+            caption = nltk.tokenize.word_tokenize(caption)
 
             current_freq_list = nltk.FreqDist(caption)
             main_freq_list += current_freq_list
@@ -144,61 +146,120 @@ def get_mscoco_wfrequency():
 
         if count % 10000 == 0:
             print('Processed: {}/{}'.format(count, c_len))
-            count += 1
 
-def get_hgst_and_lwst_frequency(annotation_tuple):
-
-    h_freq = 0
-    h_word = ''
-    l_freq = 99999999999
-    l_word = ''
-
-    count = 0
-    c_len = len(annotation_tuple)
-
-    for key in annotation_tuple.keys():
-        current_value = annotation_tuple.get(key)
-        if current_value > h_freq:
-            h_freq = current_value
-            h_word = key
-        if current_value < l_freq:
-            l_freq = current_value
-            l_word = key
-
-        if count%10000 == 0:
-            print('ghalf: {}/{}'.format(count, c_len))
         count += 1
 
-    return {'h_freq': h_freq,
-            'h_word':h_word,
-            'l_freq':l_freq,
-            'l_word':l_word }
+    main_freq_list = dict(main_freq_list)
+    main_freq_list = {k: v for k, v in sorted(
+                                            main_freq_list.items(),
+                                            key=lambda item: item[1],
+                                            reverse=True)}
+    return main_freq_list
+
+def read_tsv(tsv_path):
+    """
+    This method reads .tsv file with cells separated by tabs (/t) with following
+        format:
+                [ annotation | URL ]
+        It returns list of annotations.
+
+    Keyword arguments:
+    tsv_file_path -- < string > path to tsv file.
+
+    Return:
+    < list > of < string > -- list with annotations.
+
+    """
+    with open(tsv_path, 'r') as tsv_file:
+        tsv_data = tsv_file.read().split('\n')
+
+    annotation_list = []
+    for element in tsv_data:
+        try:
+            annotation_list.append(element.split('\t')[0])
+        except Exception as error:
+            print('[ATTENTION]: An error "{}" with an element: "{}"'.format(
+                                                                error, element))
+
+    return annotation_list
+
+def read_json(json_path):
+    """
+    This method reads MSCOCO .json files that must have following fields:
+            {
+                "annotations":[
+                    {
+                        "caption": < string >
+                    }
+                ]
+            }
+
+        It returns list of annotations.
+
+    Keyword arguments:
+    json_file_path -- < string > path to json file.
+
+    Return:
+    < list > of < string > -- list with annotations.
+
+    """
+
+    with open(json_path, 'r') as json_file:
+        json_data = json.load(json_file)
+
+    annotation_list = []
+
+    for annotation in json_data.get('annotations'):
+        try:
+            annotation_list.append(annotation.get('caption'))
+        except Exception as error:
+            print('[ATTENTION]: An error "{}" with an element: "{}"'.format(
+                                                                error, element))
+
+    return annotation_list
+
+def write_json(dict_data, json_path):
+    """
+    This method simply writes dict to json file.
+
+    Keyword arguments:
+    dict_data -- < dict > dictionary with words frequency that will be written.
+    json_path -- < string > path to json.
+
+    """
+
+    with open(json_path, 'w') as json_file:
+        json.dump(dict_data, json_file, indent=3)
+
+def write_tsv(dict_data, tsv_path):
+    """
+    This method simply writes dict to tsv file.
+
+    Keyword arguments:
+    dict_data -- < dict > dictionary with words frequency that will be written.
+    tsv_path -- < string > path to tsv.
+
+    """
+    string_to_write = ''
+    for key in dict_data.keys():
+        string_to_write += ('{}\t{}\n'.format(key, dict_data.get(key)))
+
+    with open(tsv_path, 'w') as tsv_file:
+        tsv_file.write(string_to_write)
 
 if __name__ == '__main__':
 
     args = _a_parser()
-    print(args)
 
-    # # json_path = os.path.abspath('../json_sources/combined_set.json')
-    # #
-    # # with open(json_path, 'r') as json_read:
-    # #     json_data = json.load(json_read)
-    # #
-    # # annotation_list = json_data.get('annotations')
-    # # main_freq_list = get_words_frequency(annotation_list)
-    #
-    # tsv_path = os.path.abspath(
-    #                 '../../datasets/google_dataset/Train_GCC-training.tsv')
-    #
-    # with open(tsv_path, 'r') as tsv_file:
-    #     annotation_list = [line.strip().split('\t') for line in tsv_file]
-    #
-    # main_freq_list = get_tsv_words_frequency(annotation_list)
-    #
-    # freq_dict = dict(main_freq_list)
-    # only_freq_list = list(freq_dict.values())
-    #
-    # with open('../json_sources/GOOGLE_ONLY_statistic.json', 'w') as write_stat:
-    #     json.dump(freq_dict, write_stat)
-    #
-    # print(get_hgst_and_lwst_frequency(freq_dict))
+    if args.get('json_file') is not None:
+        data = read_json(args.get('json_file'))
+    else:
+        data = read_tsv(args.get('tsv_file'))
+
+    word_frequency = get_words_frequency(data)
+
+    output_file = args.get('output_file')
+    if os.path.splitext(output_file)[1] == '.json':
+        write_json(word_frequency, output_file)
+    else:
+        write_tsv(word_frequency, output_file)
