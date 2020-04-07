@@ -184,7 +184,7 @@ MSCOCO source .json files must have following fields:
 {
     "annotations":[
         {
-            "caption": < string >
+            "caption": "string"
         }
     ]
 }
