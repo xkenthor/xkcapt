@@ -1,7 +1,6 @@
 """
 This module reads .tsv file with cells separated by tabs (/t) with following
     format:
-
                         [ annotation | URL ]
 
 It goes though all the cells and tries to download every picture. If the
