@@ -3,13 +3,13 @@ This project provides tools for downloading, preparing, analyzing datasets for t
 
 ## Anchors
 - [Description](#Description)
-- [Requirements](#Requirements)
 - - [Download scripts](#Download-scripts)
 - - [Analysis scripts](#Analysis-scripts)
 - - - [dload_dataset](#dload_dataset)
 - - - [merge_mscoco_jsons](#merge_mscoco_jsons)
 - - - [raw2mscoco](#raw2mscoco)
 - - - [count_word_frequency](#count_word_frequency)
+- [Requirements](#Requirements)
 - [Installation](#Installation)
 - - [nltk installation](#nltk-installation)
 
@@ -113,8 +113,7 @@ Since we do not know some information about the downloaded images (for example, 
 {
     "url": "http://flickr.com/commons/usage/",
     "id": 7,
-    "name":
-    "No known copyright restrictions"
+    "name": "No known copyright restrictions"
 }
 ````
 
@@ -203,7 +202,7 @@ Google source .tsv files must have [following format](#dload_dataset) described 
    "in": 7661,
    "with": 6415,
    "and": 5847,
-   "is": 4209,
+   "is": 4209
 }
 ````
 **Example of results in .tsv format:**
@@ -230,17 +229,44 @@ with |  6415
 and |  5847
 is |  4209
 
-
-
 ## Requirements
+### General
 - python 3.8
 - - nltk (3.4.5)
 
+### Russian annotations
+- [OpenNMT-py](https://opennmt.net/OpenNMT-py/main.html#installation)
+- [Translator (Ru) -> (En)](https://github.com/ManiaCello/en-ru-onmt)
+
 ## Installation
-### nltk installation
-Write and execute following code:
-````PYTHON
-  import nltk
-  nltk.download()
+### General
+#### nltk installation
+````shell
+pip install nltk
 ````
-After launching GUI choose install all and exit.
+After that write and execute the following code:
+````PYTHON
+import nltk
+nltk.download()
+````
+When GUI will launch choose **install all** and exit.
+
+### Russian annotations
+#### OpenNMT-py installation
+````shell
+pip install OpenNMT-py
+````
+*or from the sources:*
+````shell
+git clone https://github.com/OpenNMT/OpenNMT-py.git
+cd OpenNMT-py
+python setup.py install
+````
+#### En-ru-onmt
+Install [OpenNMT-py](#OpenNMT-py-installation) described above.
+
+Then download [en-ru-onmt](https://github.com/ManiaCello/en-ru-onmt) repository:
+````shell
+git clone https://github.com/ManiaCello/en-ru-onmt
+````
+Download [**this**](https://drive.google.com/open?id=11gJr4c06wgVuV5Jb1I2CWVKhyNtYFxPY) model and place it to **en-ru-onmt/models** folder.
