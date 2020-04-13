@@ -9,8 +9,7 @@ For the brevity of the code the output json will have only one license:
     {
         'url': 'http://flickr.com/commons/usage/',
         'id': 7,
-        'name':
-        'No known copyright restrictions'
+        'name': 'No known copyright restrictions'
     }
 
 /-----------------------------------------------------------------------------/
