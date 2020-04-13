@@ -244,6 +244,7 @@ is |  4209
 
 ## Installation
 ### General
+---
 #### nltk installation
 ````shell
 pip install nltk
@@ -256,6 +257,7 @@ nltk.download()
 When GUI will launch choose **install all** and exit.
 
 ### Russian annotations
+---
 #### OpenNMT-py installation
 ````shell
 pip install OpenNMT-py
@@ -266,6 +268,7 @@ git clone https://github.com/OpenNMT/OpenNMT-py.git
 cd OpenNMT-py
 python setup.py install
 ````
+---
 #### En-ru-onmt
 Install [OpenNMT-py](#OpenNMT-py-installation) described above.
 
