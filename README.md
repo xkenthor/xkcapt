@@ -13,7 +13,7 @@ This project provides tools for downloading, preparing, analyzing datasets for t
 - [Installation](#Installation)
 - - [General](#General)
 - - - [nltk installation](#nltk-installation)
-- - [Russian annotations](#Russian-annotations-2)
+- - [Russian annotations](#Russian-annotations)
 - - - [OpenNMT-py installation](#OpenNMT-py-installation)
 - - - [En-ru-onmt](#En-ru-onmt)
 
