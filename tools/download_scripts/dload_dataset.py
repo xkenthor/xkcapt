@@ -23,7 +23,6 @@ Result JSON-file view:
 }
 
 """
-
 from datetime import timedelta
 
 import os
@@ -55,6 +54,7 @@ def _a_parse():
                 metavar='/path/to/tsv',
                 required=True,
                 help='path to source tsv-file')
+
     a_parser.add_argument(
                 '-o',
                 '--output_json',
@@ -74,16 +74,15 @@ def _a_parse():
                 '--continue_download',
                 metavar='True OR true OR 1 OR y OR yes',
                 default="True",
-                help='continue downloading from last json number'
-                )
+                help='continue downloading from last json number')
+
     a_parser.add_argument(
                 '-t',
                 '--timeout_connection',
                 metavar='float',
                 default=1.0,
                 type=float,
-                help='connection timeout for each picture'
-    )
+                help='connection timeout for each picture')
 
     args = vars(a_parser.parse_args())
     s_tsv_path = os.path.abspath(args.get('source_tsv'))
