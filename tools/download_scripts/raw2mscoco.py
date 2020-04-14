@@ -122,6 +122,7 @@ def _a_parse():
                 metavar='/path/to/json',
                 required=True,
                 help='path to source json-file')
+
     a_parser.add_argument(
                 '-o',
                 '--output_json',
@@ -129,14 +130,14 @@ def _a_parse():
                 default='generated_mscoco.json',
                 required=False,
                 help='path to destination json-file')
+
     a_parser.add_argument(
                 '-i',
                 '--images_dir',
                 metavar='/path/to/images/directory',
                 required=False,
                 help='path to images directory. If not specified height &' + \
-                        ' width of images will be null'
-    )
+                        ' width of images will be null')
 
     args = vars(a_parser.parse_args())
     source_json = os.path.abspath(args.get('source_json'))
