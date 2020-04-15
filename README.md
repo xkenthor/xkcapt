@@ -4,11 +4,12 @@ This project provides tools for downloading, preparing, analyzing datasets for t
 ## Anchors
 - [Description](#Description)
 - - [Download scripts](#Download-scripts)
-- - [Analysis scripts](#Analysis-scripts)
 - - - [dload_dataset](#dload_dataset)
 - - - [merge_mscoco_jsons](#merge_mscoco_jsons)
 - - - [raw2mscoco](#raw2mscoco)
+- - [Analysis scripts](#Analysis-scripts)
 - - - [count_word_frequency](#count_word_frequency)
+- - - [look_by_num](#look_by_num)
 - [Requirements](#Requirements)
 - [Installation](#Installation)
 - - [General](#General)
