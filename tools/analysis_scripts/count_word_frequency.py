@@ -25,7 +25,6 @@ import argparse
 
 import nltk
 
-
 def _a_parser():
     """
     This function is a simple argument parser. Checks if paths in arguments are
