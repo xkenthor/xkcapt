@@ -216,7 +216,7 @@ def read_json(json_path):
             annotation_list.append(annotation.get('caption'))
         except Exception as error:
             print('[ATTENTION]: An error "{}" with an element: "{}"'.format(
-                                                                error, element))
+                                                            error, element))
 
     return annotation_list
 
