@@ -233,10 +233,26 @@ with |  6415
 and |  5847
 is |  4209
 
+---
+#### look_by_num
+This module provides the ability to verify the correct mapping of annotations and pictures.
+It was created in case if during the process of manipulating files, the position of the annotations in the "Signature" field has changed and does not match the indicated picture.
+
+**Usage example:**
+````
+Enter caption id: > 37
+Caption: A bicycle replica with a clock as the front wheel.
+RU-Caption: Реплика велосипеда с часами в качестве переднего колеса.
+Path: /MSCOCO_img_dataset_2017/train2017/000000203564.jpg
+````
+If the image is found in the specified folders, the program displays it.
+
 ## Requirements
 ### General
 - python 3.8
 - - nltk (3.4.5)
+- - opencv-python 4.2.0.32 (cv2)
+- - numpy 1.18.2
 
 ### Russian annotations
 - [OpenNMT-py](https://opennmt.net/OpenNMT-py/main.html#installation)
